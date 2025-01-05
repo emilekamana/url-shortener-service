@@ -33,6 +33,9 @@ connectToDatabase()
           {
             url: "http://localhost:3000",
           },
+          {
+            url: "https://url-shortener-service-kz5q.onrender.com",
+          }
         ],
       },
       apis: ["./src/routes/*.ts"],
