@@ -1,21 +1,26 @@
 import dotenv from "dotenv";
 import * as mongoDB from "mongodb";
 
-export const collections: { shortUrls?: mongoDB.Collection } = {}
+export const collections: { shortUrls?: mongoDB.Collection } = {};
 
-export async function connectToDatabase () {
-    dotenv.config();
-  
-    const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.DB_CONN_STRING as string);
-            
-    await client.connect();
-        
-    const db: mongoDB.Db = client.db(process.env.DB_NAME);
+export async function connectToDatabase() {
+  dotenv.config();
 
-    const urlsCollection: mongoDB.Collection = db.collection(process.env.URLS_COLLECTION_NAME as string);
+  const client: mongoDB.MongoClient = new mongoDB.MongoClient(
+    process.env.DB_CONN_STRING as string
+  );
 
-    collections.shortUrls = urlsCollection;
+  await client.connect();
 
-  
-    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${urlsCollection.collectionName}`);
-  }
+  const db: mongoDB.Db = client.db(process.env.DB_NAME);
+
+  const urlsCollection: mongoDB.Collection = db.collection(
+    process.env.URLS_COLLECTION_NAME as string
+  );
+
+  collections.shortUrls = urlsCollection;
+
+  console.log(
+    `Successfully connected to database: ${db.databaseName} and collection: ${urlsCollection.collectionName}`
+  );
+}
