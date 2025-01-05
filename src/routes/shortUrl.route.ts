@@ -1,9 +1,11 @@
-import express, { Request, Response, Router } from "express";
+import express, { Router } from "express";
 import { ShortUrlController } from "../controllers/shortUrl.controller.ts";
+import { validateData } from "../middlewares/validation.middleware.ts";
+import { shortenURLSchema } from "../schemas/shortUrl.schema.ts";
 
 const router: Router = express.Router();
 
-router.post("/api/shorten", ShortUrlController.shorten);
+router.post("/api/shorten", validateData(shortenURLSchema), ShortUrlController.shorten);
 
 router.get("/:shortCode", ShortUrlController.redirectToFullURL);
 
