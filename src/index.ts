@@ -52,6 +52,13 @@ connectToDatabase()
     // Serve Swagger UI documentation at /api/docs
     app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+    
+    // Default route for handling non-existent routes
+    app.use("*", (req: Request, res: Response) => {
+      res.status(404).send("$04: Not found. Try another vaild url");
+    });
+    
+
     // Start the Express server
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
