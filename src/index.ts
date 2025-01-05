@@ -1,6 +1,8 @@
-import express, { Express, Request, Response, Application } from "express";
+import express, { Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import router from "./routes/shortUrl.route.ts";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
 
 import { connectToDatabase } from "./services/database.service.ts";
 
@@ -15,10 +17,28 @@ connectToDatabase()
     app.use(express.json());
 
     app.get("/", (req: Request, res: Response) => {
-      res.send("Express & TypeScript Server");
+      res.send("URL Shortening Service API");
     });
 
     app.use("", router);
+
+    const swaggerOptions = {
+      swaggerDefinition: {
+        openapi: "3.0.0",
+        info: {
+          title: "URL shortnener Service API",
+          version: "1.0.0",
+        },
+        servers: [
+          {
+            url: "http://localhost:3000",
+          },
+        ],
+      },
+      apis: ["./src/routes/*.ts"],
+    };
+    const swaggerDocs = swaggerJsdoc(swaggerOptions);
+    app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);

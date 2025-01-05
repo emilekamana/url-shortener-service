@@ -67,7 +67,7 @@ export class ShortUrlController {
       )) as unknown as ShortUrl;
 
       if (shortURL) {
-        res.status(200).json(shortURL);
+        res.status(200).json({clicks: shortURL.clicks});
       }
     } catch (error) {
       res
