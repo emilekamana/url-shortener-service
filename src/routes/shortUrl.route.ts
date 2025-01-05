@@ -9,4 +9,8 @@ router.get("/:shortCode", ShortUrlController.redirectToFullURL);
 
 router.get("/api/stats/:shortCode", ShortUrlController.getStats);
 
+router.delete("/api/delete/:shortCode", ShortUrlController.deleteShortURL);
+
+router.delete("/api/delete-all", ShortUrlController.deleteAllShortURLs);
+
 export default router;

@@ -77,4 +77,39 @@ export class ShortUrlController {
         );
     }
   }
+
+  public static async deleteShortURL(req: Request, res: Response) {
+    const shortCode = req?.params?.shortCode;
+
+    try {
+      const query = { shortCode: shortCode };
+      const result = await collections!.shortUrls!.deleteOne(query);
+
+      if (result && result.deletedCount) {
+        res.status(202).send({ message: "Short URL deleted" });
+      } else {
+        res.status(404).send(`Short URL not found: ${shortCode}`);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send((error as any).message);
+    }
+  }
+
+  public static async deleteAllShortURLs(req: Request, res: Response) {
+    try {
+      const result = await collections!.shortUrls!.deleteMany({});
+
+      if (result && result.deletedCount) {
+        res
+          .status(202)
+          .send({ message: `Deleted ${result.deletedCount} document(s)` });
+      } else {
+        res.status(404).send("No documents found to delete");
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send((error as any).message);
+    }
+  }
 }
